@@ -3,26 +3,27 @@ import { Form } from "../components";
 
 /*
 
+chakra - reponsiveness
+
+if temp in C -> conversion to F
+  heat index - only with tempFar !
+  // 5 past results stored in local storage
 */
 
 export const HeatCalculator = () => {
   return (
-    <div className='content'>
+    <div className="content">
       <div>
-        <Heading as='h3' size='lg'>
+        <Heading as="h3" size="lg">
           Heat Index Calculator
         </Heading>
-        <Text fontSize='md'>
+        <Text fontSize="md">
           Aute consequat qui esse exercitation. Consectetur mollit laboris
           labore officia dolore laborum eiusmod sit tempor dolor non.
         </Text>
       </div>
 
       <Form />
-
-      <div>
-        <p>The heat index is ...</p>
-      </div>
     </div>
   );
 };
