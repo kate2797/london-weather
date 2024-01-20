@@ -24,6 +24,10 @@ the entire display for curr & historical => 1 component, just pass down differen
 */
 // hourly for next few days, as we're getting before
 
+// next: filtering
+
+// then: get the historical data
+
 export const Weather = () => {
   const [hum, setHum] = useState([]);
   const [pressure, setPressure] = useState([]);
