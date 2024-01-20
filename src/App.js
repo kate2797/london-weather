@@ -10,15 +10,13 @@ const App = () => {
         <header className="App-header">
           <h1>London Weather</h1>
         </header>
-        <body>
-          <BrowserRouter>
-            <Routes>
-              <Route path="/weather" element={<Weather />} />
-              <Route path="/weather-evolution" element={<WeatherForecast />} />
-              <Route path="/heat-calculator" element={<HeatCalculator />} />
-            </Routes>
-          </BrowserRouter>
-        </body>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/weather" element={<Weather />} />
+            <Route path="/weather-forecast" element={<WeatherForecast />} />
+            <Route path="/heat-calculator" element={<HeatCalculator />} />
+          </Routes>
+        </BrowserRouter>
         <footer></footer>
       </div>
     </ChakraProvider>
