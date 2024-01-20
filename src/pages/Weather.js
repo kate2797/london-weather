@@ -9,7 +9,12 @@ import {
 } from "@chakra-ui/react";
 import { DataTable, Filter } from "../components";
 import { useState, useEffect } from "react";
-import { fetchTableData, WMO } from "../services/services";
+import { fetchTableData } from "../services";
+import {
+  roundFloatValue,
+  convertTimeToString,
+  convertWeatherCode,
+} from "../helpers";
 
 /*
 for London
@@ -18,34 +23,6 @@ for London
 the entire display for curr & historical => 1 component, just pass down different data
 */
 // hourly for next few days, as we're getting before
-
-// daj niekde do helpers
-const roundFloatValue = (valueArr) => {
-  let rounded = [];
-  for (let i = 0; i < valueArr.length; i++) {
-    let value = Math.round(valueArr[i] * 10) / 10;
-    rounded.push(value);
-  }
-  return rounded;
-};
-
-const convertTimeToString = (timeArr) => {
-  let strings = [];
-  for (let i = 0; i < timeArr.length; i++) {
-    let time = Date(timeArr[i]).toLocaleDateString();
-    strings.push(time);
-  }
-  return strings;
-};
-
-const convertWeatherCode = (codeArr) => {
-  let strings = [];
-  for (let i = 0; i < codeArr.length; i++) {
-    let code = WMO[codeArr[i]];
-    strings.push(code);
-    return strings;
-  }
-};
 
 export const Weather = () => {
   const [hum, setHum] = useState([]);
@@ -58,11 +35,11 @@ export const Weather = () => {
     const data = fetchTableData();
     data
       .then((res) => {
-        setHum(res.hourly.relativeHumidity2m); // roundFloatValue
-        setPressure(res.hourly.surfacePressure); // roundFloatValue
-        setTemp(res.hourly.temperature2m); // roundFloatValue
-        setTime(res.hourly.time); //convertTimeToString
-        setCode(res.hourly.weatherCode); //convertWeatherCode
+        setHum(res.hourly.relativeHumidity2m);
+        setPressure(roundFloatValue(res.hourly.surfacePressure));
+        setTemp(roundFloatValue(res.hourly.temperature2m));
+        setTime(convertTimeToString(res.hourly.time));
+        setCode(convertWeatherCode(res.hourly.weatherCode)); // ARRAY
       })
       .catch((err) => {
         console.log(err);
@@ -70,7 +47,7 @@ export const Weather = () => {
   }, []);
 
   useEffect(() => {
-    console.log(hum, pressure, temp, time, code);
+    // vsetky data v ok formate, potom mozem display...
   }, [hum, pressure, temp, time, code]);
 
   return (

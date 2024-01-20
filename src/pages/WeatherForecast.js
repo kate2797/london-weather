@@ -10,7 +10,7 @@ import {
 } from "recharts";
 import { RepeatIcon } from "@chakra-ui/icons";
 import { useState, useEffect } from "react";
-import { fetchChartData } from "../services/services";
+import { fetchChartData } from "../services";
 
 /*
 params needed –> /forecast:
@@ -47,7 +47,7 @@ export const WeatherForecast = () => {
     setEndRange(new Date(datetime[datetime.length - 1]).toLocaleDateString());
   }, [datetime, temp]);
 
-  const populateUI = () => {
+  const populate = () => {
     const weatherData = [];
     for (let i = 0; i < datetime.length; i++) {
       let entry = {
@@ -67,7 +67,7 @@ export const WeatherForecast = () => {
       <LineChart
         width={900}
         height={300}
-        data={populateUI()}
+        data={populate()}
         margin={{
           top: 5,
           right: 30,
