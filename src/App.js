@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { Route, Routes, BrowserRouter } from "react-router-dom";
+import { Weather, WeatherEvolution, HeatCalculator } from "./pages";
+import { ChakraProvider } from "@chakra-ui/react";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ChakraProvider>
+      <div className='App'>
+        <header className='App-header'>
+          <h1>London Weather</h1>
+        </header>
+        <body>
+          <BrowserRouter>
+            <Routes>
+              <Route path='/weather' element={<Weather />} />
+              <Route path='/weather-evolution' element={<WeatherEvolution />} />
+              <Route path='/heat-calculator' element={<HeatCalculator />} />
+            </Routes>
+          </BrowserRouter>
+        </body>
+        <footer></footer>
+      </div>
+    </ChakraProvider>
   );
-}
+};
 
 export default App;
