@@ -9,8 +9,8 @@ import {
   Legend,
 } from "recharts";
 import { RepeatIcon } from "@chakra-ui/icons";
-import { fetchWeatherApi } from "openmeteo";
 import { useState, useEffect } from "react";
+import { fetchData } from "../services.js";
 
 /*
 params needed –> /forecast:
@@ -18,38 +18,11 @@ params needed –> /forecast:
   end_date
   // by default vracia 7 poslednych dni
 */
-
-const fetchData = async () => {
-  const params = {
-    latitude: 51.5072,
-    longitude: 0.1276,
-    hourly: "temperature_2m",
-  };
-  const url = "https://api.open-meteo.com/v1/forecast";
-
-  const responses = await fetchWeatherApi(url, params);
-
-  // helper
-  const range = (start, stop, step) =>
-    Array.from({ length: (stop - start) / step }, (_, i) => start + i * step);
-
-  // Process data
-  const response = responses[0];
-  const utcOffsetSeconds = response.utcOffsetSeconds();
-  const hourly = response.hourly();
-
-  const weatherData = {
-    hourly: {
-      time: range(
-        Number(hourly.time()),
-        Number(hourly.timeEnd()),
-        hourly.interval()
-      ).map((t) => new Date((t + utcOffsetSeconds) * 1000)),
-      temperature2m: hourly.variables(0).valuesArray(),
-    },
-  };
-  return [weatherData.hourly.time, weatherData.hourly.temperature2m];
-};
+/*
+  user: pick date range
+  - hocikolko dni, cize os TIME sa musi zmenit ak dlhsie ako 7 dni atd.
+  - dd/mm/yy
+  */
 
 export const WeatherForecast = () => {
   const [datetime, setDatetime] = useState([]);
@@ -59,7 +32,6 @@ export const WeatherForecast = () => {
 
   useEffect(() => {
     const data = fetchData();
-    // resolve promise
     data
       .then((res) => {
         setDatetime(res[0]);
@@ -79,7 +51,7 @@ export const WeatherForecast = () => {
     const weatherData = [];
     for (let i = 0; i < datetime.length; i++) {
       let entry = {
-        name: new Date(datetime[i]).toLocaleDateString(), // check later diff formats
+        name: new Date(datetime[i]).toLocaleDateString(),
         temperature: Math.round(temp[i] * 10) / 10,
       };
       weatherData.push(entry);
@@ -87,21 +59,12 @@ export const WeatherForecast = () => {
     return weatherData;
   };
 
-  /*
-  user: pick date range
-  - hocikolko dni, cize os TIME sa musi zmenit ak dlhsie ako 7 dni atd.
-  - dd/mm/yy
-  */
-  // somehow ukaz len 7 dni -> Mon, Tue..
-  // niekde napis range, ze od 1. do 7. a tak
-
   const renderLineChart = (
     <div className="chart">
       <Heading as="h5" size="sm">
         {`${startRange} - ${endRange}`}
       </Heading>
       <LineChart
-        title="Chart of PU x UV"
         width={900}
         height={300}
         data={populateUI()}
