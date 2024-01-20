@@ -10,7 +10,7 @@ import {
 } from "recharts";
 import { RepeatIcon } from "@chakra-ui/icons";
 import { useState, useEffect } from "react";
-import { fetchData } from "../services.js";
+import { fetchChartData } from "../services/services";
 
 /*
 params needed –> /forecast:
@@ -31,7 +31,7 @@ export const WeatherForecast = () => {
   const [endRange, setEndRange] = useState("");
 
   useEffect(() => {
-    const data = fetchData();
+    const data = fetchChartData();
     data
       .then((res) => {
         setDatetime(res[0]);

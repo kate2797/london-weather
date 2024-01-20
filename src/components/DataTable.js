@@ -12,13 +12,13 @@ export const DataTable = () => {
   return (
     <>
       <TableContainer>
-        <Table variant='striped' colorScheme='teal'>
+        <Table variant="striped" colorScheme="teal">
           <Thead>
             <Tr>
               <Th>Datetime</Th>
               <Th>Weather State</Th>
               <Th isNumeric>Temperature (°C)</Th>
-              <Th isNumeric>Surface Pressure (Pa)</Th>
+              <Th isNumeric>Surface Pressure (hPa)</Th>
               <Th isNumeric>Relative Humidity (%)</Th>
             </Tr>
           </Thead>
