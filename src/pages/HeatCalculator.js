@@ -1,15 +1,6 @@
 import { Heading, Text } from "@chakra-ui/react";
 import { Form } from "../components";
 
-/*
-
-chakra - reponsiveness
-
-if temp in C -> conversion to F
-  heat index - only with tempFar !
-  // 5 past results stored in local storage
-*/
-
 export const HeatCalculator = () => {
   return (
     <div className="content">

@@ -1,3 +1,3 @@
-export { Weather } from "./Weather"
-export { WeatherEvolution } from "./WeatherEvolution"
-export { HeatCalculator } from "./HeatCalculator"
+export { Weather } from "./Weather";
+export { WeatherForecast } from "./WeatherForecast";
+export { HeatCalculator } from "./HeatCalculator";

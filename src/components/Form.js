@@ -5,6 +5,11 @@ import { RepeatIcon } from "@chakra-ui/icons";
 /*
     TODO
 
+
+  // chakra - achieving reponsiveness
+
+  // 5 past results stored in local storage !!!
+
   // component documentation
 
   // split UI into several components
