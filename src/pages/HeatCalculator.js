@@ -1,6 +1,10 @@
 import { Heading, Text } from "@chakra-ui/react";
 import { Form } from "../components";
 
+/*
+
+*/
+
 export const HeatCalculator = () => {
   return (
     <div className='content'>
