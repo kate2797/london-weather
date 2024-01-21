@@ -1,9 +1,8 @@
 import "./App.css";
-import { Route, Routes, BrowserRouter } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { Weather, WeatherForecast, HeatCalculator } from "./pages";
 import { ChakraProvider } from "@chakra-ui/react";
-
-// tabs, or some NAV from the home page
+import { Navbar } from "./components";
 
 const App = () => {
   return (
@@ -12,13 +11,12 @@ const App = () => {
         <header className="App-header">
           <h1>London Weather</h1>
         </header>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/weather" element={<Weather />} />
-            <Route path="/weather-forecast" element={<WeatherForecast />} />
-            <Route path="/heat-calculator" element={<HeatCalculator />} />
-          </Routes>
-        </BrowserRouter>
+        <Navbar />
+        <Routes>
+          <Route path="/weather" element={<Weather />} />
+          <Route path="/weather-forecast" element={<WeatherForecast />} />
+          <Route path="/heat-calculator" element={<HeatCalculator />} />
+        </Routes>
         <footer></footer>
       </div>
     </ChakraProvider>
