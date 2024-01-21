@@ -4,6 +4,44 @@ export const convertCelsiusToFarenheit = (tempCelsius) => {
   return (9 / 5) * tempCelsius + 32;
 };
 
+export const divideData = (weatherData, MAX_LENGTH) => {
+  let data = {
+    0: [],
+    1: [],
+    2: [],
+    3: [],
+    4: [],
+    5: [],
+    6: [],
+  };
+  let relativeHumidity2m = weatherData.relativeHumidity2m; // Array
+  let surfacePressure = weatherData.surfacePressure;
+  let temperature2m = weatherData.temperature2m;
+  let time = weatherData.time;
+  let weatherCode = weatherData.weatherCode;
+  let combined = [];
+
+  for (let i = 0; i < MAX_LENGTH; i++) {
+    let entry = {
+      hum: relativeHumidity2m[i],
+      pressure: surfacePressure[i],
+      temp: temperature2m[i],
+      time: time[i],
+      code: weatherCode[i],
+    };
+    combined.push(entry);
+  }
+
+  data[0] = combined.slice(0, 24);
+  data[1] = combined.slice(24, 48);
+  data[2] = combined.slice(48, 72);
+  data[3] = combined.slice(72, 96);
+  data[4] = combined.slice(96, 120);
+  data[5] = combined.slice(120, 144);
+  data[6] = combined.slice(144, 168);
+  return data;
+};
+
 export const sanitiseTemperature = (temp, unit) => {
   if (unit === "Celsius" && temp > 26.7) {
     return convertCelsiusToFarenheit(temp);

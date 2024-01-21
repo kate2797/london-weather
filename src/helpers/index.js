@@ -5,3 +5,4 @@ export { convertCelsiusToFarenheit } from "./helpers";
 export { calculateHeatIndex } from "./helpers";
 export { computeResult } from "./helpers";
 export { sanitiseTemperature } from "./helpers";
+export { divideData } from "./helpers";
