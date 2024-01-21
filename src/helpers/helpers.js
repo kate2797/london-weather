@@ -4,7 +4,6 @@ export const convertCelsiusToFarenheit = (tempCelsius) => {
   return (9 / 5) * tempCelsius + 32;
 };
 
-// >>> TODO: communicate this in the UI
 export const sanitiseTemperature = (temp, unit) => {
   if (unit === "Celsius" && temp > 26.7) {
     return convertCelsiusToFarenheit(temp);

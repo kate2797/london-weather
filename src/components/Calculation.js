@@ -1,33 +1,28 @@
-import { Input, Button, Select, Text, IconButton } from "@chakra-ui/react";
+import {
+  Input,
+  Button,
+  Select,
+  Text,
+  IconButton,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverBody,
+  PopoverArrow,
+  PopoverCloseButton,
+} from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { RepeatIcon } from "@chakra-ui/icons";
 import { Result } from "./";
 import { computeResult } from "../helpers";
-import { useLocalStorage } from "../hooks";
 
 /*
-    TODO
-
   // chakra - achieving reponsiveness
-
-  // 5 past results stored in local storage !!!
-
   // component documentation
+  // communicate why cannot calc if below a treshold –> min temp 80F etc.
+  // edge cases -> hum: min 0, max 100 etc.
 
-  // clear values after unit change
-  useEffect(() => {
-    if (temp != 0 && hum != 0) {
-    }
-    setTemp(0);
-    setHum(0);
-  }, [unit]);
-
-  // communicate why cannot calc if below a treshold
-
-  // edge cases
-    hum: min 0, max 100 etc.
-
-  // better styling
+  HEAT INDEX, formula fix
 */
 
 export const Calculation = () => {
@@ -37,13 +32,8 @@ export const Calculation = () => {
   const [index, setIndex] = useState(0);
   const [showIndex, setShowIndex] = useState(false);
   const [clearing, setClearing] = useState(false);
-
-  // TODO
-  // AK BUDE 5 items in LOCAL, VYMAZ POSLEDNY
-
-  // localStorage
-  const [key, setKey] = useState(1);
-  //const [value, setValue] = useLocalStorage(toString(key));
+  const [results, setResults] = useState([]); // localStorage // RETHINK, maybe not needed!!
+  const [key, setKey] = useState(0); // localStorage
 
   const handleChangeTemperature = (event) => setTemp(event.target.value);
   const handleChangeUnit = (event) => setUnit(event.target.value);
@@ -52,53 +42,70 @@ export const Calculation = () => {
     setShowIndex(true);
   };
   const handleClearing = () => {
+    setShowIndex(false); // Clearing before recomputing
     setHum(0);
     setTemp(0);
     setUnit("");
     setIndex(0);
-    setShowIndex(false);
     setClearing(true);
   };
 
-  const getItem = (key) => {
-    return localStorage.getItem(toString(key));
+  // ked uz nieco stored, nie od 0, issues ----
+  const loadStorage = () => {
+    let temp = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      let res = localStorage.getItem(i);
+      temp.push(res);
+    }
+    return temp;
   };
 
-  const store = (key, value) => {
-    console.log("saving this value: " + toString(value));
-    console.log("with the key: " + toString(key));
-    localStorage.setItem(toString(key), toString(value));
-  };
-
-  const remove = (key) => {
-    localStorage.removeItem(toString(key));
-  };
-
-  // ON CLICK --  ULOZILI SME
-  const handleResult = () => {
+  const store = () => {
+    localStorage.setItem(key, index);
     setKey((prev) => prev + 1);
-    console.log(key, index);
-    store(key, index);
   };
+
+  let isValid =
+    showIndex &&
+    index !== undefined &&
+    key !== undefined &&
+    !results.includes(index); // ? check again, do we update this, no.. so ?????
+
+  useEffect(() => {
+    //localStorage.clear();
+    setResults(loadStorage());
+  }, []);
 
   useEffect(() => {
     if (temp != null && unit != null && hum != null) {
       let result = computeResult(temp, unit, hum);
-      setIndex(result); // MAM INDEX
+      setIndex(result); // Compute heat index
     }
-  }, [temp, unit, hum]);
+  }, [temp, hum]);
 
-  // TEST
   useEffect(() => {
-    console.log(key);
-    console.log("local storage: " + toString(localStorage.length)); // NIC SA NEUKLADA
-    if (key > 5) {
-      remove(key); // DELETE posledny
-      setKey(5);
+    if (localStorage.length === 6) {
+      setKey(0); // Reset our keys
     }
-  }, [key]);
+    if (isValid) {
+      store();
+      //console.log("storage: " + localStorage.length);
+      //console.log("local state: " + results.length);
+    }
+  }, [showIndex]);
 
   useEffect(() => {}, [clearing]);
+
+  const getResults = () => {
+    let temp = [];
+    for (let i = 0; i <= 5; i++) {
+      let res = localStorage.getItem(i);
+      temp.push(res);
+    }
+    return temp;
+  };
+
+  let i = 0; // da sa toto cez useState ?????
 
   return (
     <>
@@ -133,35 +140,30 @@ export const Calculation = () => {
         />
       </div>
 
-      <Button
-        colorScheme="teal"
-        variant="solid"
-        onClick={() => {
-          handleCalculation();
-          handleResult();
-        }}
-      >
+      <Button colorScheme="teal" variant="solid" onClick={handleCalculation}>
         Calculate
       </Button>
+
+      <Popover>
+        <PopoverTrigger>
+          <Button colorScheme="yellow">History</Button>
+        </PopoverTrigger>
+        <PopoverContent>
+          <PopoverArrow />
+          <PopoverCloseButton />
+          {getResults().map((res) => {
+            return <PopoverBody key={i++}>{res}</PopoverBody>;
+          })}
+        </PopoverContent>
+      </Popover>
+
       <IconButton
         aria-label="Repeat calculation"
         icon={<RepeatIcon />}
         onClick={handleClearing}
       />
+
       {showIndex && <Result index={index} />}
     </>
   );
 };
-
-/*
-
-onClick={
-  () => {
-  handleCalculation()
-  handleResult()
-  }
-}
-
-
-
-*/

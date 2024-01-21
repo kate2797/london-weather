@@ -1,24 +1,6 @@
 import { useEffect, useState } from "react";
 
-/*
- const [value, setValue] = useState(() => {
-    try {
-      const storedValue = window.localStorage.getItem(key);
-      return storedValue ? JSON.parse(storedValue) : undefined;
-    } catch (error) {
-      console.error(error);
-      return undefined;
-    }
-
-
-
-    v app, my vraciame val, key a setter
-
-    key passneme
-
-    val a setter musime pouzit tu, aby to slo
-
-*/
+// look at used & unused
 
 export const useLocalStorage = (key) => {
   const [value, setValue] = useState("");
