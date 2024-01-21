@@ -8,53 +8,40 @@ import {
   TableContainer,
 } from "@chakra-ui/react";
 
-/*
+import { WMO } from "../services";
 
-data format, pass down
-
-  - hum arr
-  - pressure arr => round()
-  - temp arr => round()
-  - time arr => must be converted to look normal
-  - weathercode arr => conversion needed
-
-*/
-
+// Displays hourly data per day
 export const DataTable = ({ data }) => {
-  const MAX_LENGTH = 24; // Per day
   return (
-    <>
-      <TableContainer>
-        <Table variant="striped" colorScheme="teal">
-          <Thead>
-            <Tr>
-              <Th>Datetime</Th>
-              <Th>Weather State</Th>
-              <Th isNumeric>Temperature (°C)</Th>
-              <Th isNumeric>Surface Pressure (hPa)</Th>
-              <Th isNumeric>Relative Humidity (%)</Th>
-            </Tr>
-          </Thead>
-
-          <Tbody>
-            <Tr>
-              <Td>June</Td>
-              <Td>Rainy</Td>
-              <Td isNumeric>25.4</Td>
-              <Td isNumeric>20</Td>
-              <Td isNumeric>67</Td>
-            </Tr>
-
-            <Tr>
-              <Td>July</Td>
-              <Td>Sunny</Td>
-              <Td isNumeric>28.4</Td>
-              <Td isNumeric>24</Td>
-              <Td isNumeric>52</Td>
-            </Tr>
-          </Tbody>
-        </Table>
-      </TableContainer>
-    </>
+    data && (
+      <>
+        <TableContainer>
+          <Table variant="striped" colorScheme="teal">
+            <Thead>
+              <Tr>
+                <Th>Datetime</Th>
+                <Th>Weather State</Th>
+                <Th isNumeric>Temperature (°C)</Th>
+                <Th isNumeric>Pressure (hPa)</Th>
+                <Th isNumeric>Relative Humidity (%)</Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {data.map((entry) => {
+                return (
+                  <Tr>
+                    <Td>{new Date(entry.time).toLocaleDateString()}</Td>
+                    <Td>{WMO[entry.code]}</Td>
+                    <Td isNumeric>{Math.round(entry.temp * 10) / 10}</Td>
+                    <Td isNumeric>{Math.round(entry.pressure * 10) / 10}</Td>
+                    <Td isNumeric>{entry.hum}</Td>
+                  </Tr>
+                );
+              })}
+            </Tbody>
+          </Table>
+        </TableContainer>
+      </>
+    )
   );
 };

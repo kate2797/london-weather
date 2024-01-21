@@ -22,7 +22,6 @@ import {
 /*
     <Filter />
 */
-// 21/01/2024 - 28/01/2024
 
 export const Weather = () => {
   const [weatherData, setWeatherData] = useState([]);
@@ -39,6 +38,8 @@ export const Weather = () => {
   ];
 
   useEffect(() => {
+    alert("hello data"); // ???? why not after 1st fetch????
+
     const data = fetchTableData();
     data
       .then((res) => {
