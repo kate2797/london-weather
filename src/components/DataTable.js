@@ -8,7 +8,20 @@ import {
   TableContainer,
 } from "@chakra-ui/react";
 
-export const DataTable = () => {
+/*
+
+data format, pass down
+
+  - hum arr
+  - pressure arr => round()
+  - temp arr => round()
+  - time arr => must be converted to look normal
+  - weathercode arr => conversion needed
+
+*/
+
+export const DataTable = ({ data }) => {
+  const MAX_LENGTH = 24; // Per day
   return (
     <>
       <TableContainer>
