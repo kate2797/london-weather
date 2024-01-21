@@ -1,5 +1,5 @@
 import { Heading, Text } from "@chakra-ui/react";
-import { Form } from "../components";
+import { Calculation } from "../components";
 
 export const HeatCalculator = () => {
   return (
@@ -14,7 +14,7 @@ export const HeatCalculator = () => {
         </Text>
       </div>
 
-      <Form />
+      <Calculation />
     </div>
   );
 };

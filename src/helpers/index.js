@@ -1,3 +1,7 @@
-export { roundFloatValue } from "./data-helpers";
-export { convertTimeToString } from "./data-helpers";
-export { convertWeatherCode } from "./data-helpers";
+export { roundFloatValue } from "./helpers";
+export { convertTimeToString } from "./helpers";
+export { convertWeatherCode } from "./helpers";
+export { convertCelsiusToFarenheit } from "./helpers";
+export { calculateHeatIndex } from "./helpers";
+export { computeResult } from "./helpers";
+export { sanitiseTemperature } from "./helpers";

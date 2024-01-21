@@ -1,18 +1,17 @@
 import { Input, Button, Select, Text, IconButton } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { RepeatIcon } from "@chakra-ui/icons";
+import { Result } from "./";
+import { computeResult } from "../helpers";
 
 /*
     TODO
-
 
   // chakra - achieving reponsiveness
 
   // 5 past results stored in local storage !!!
 
   // component documentation
-
-  // split UI into several components
 
   // clear values after unit change
   useEffect(() => {
@@ -30,7 +29,7 @@ import { RepeatIcon } from "@chakra-ui/icons";
   // better styling
 */
 
-export const Form = () => {
+export const Calculation = () => {
   const [temp, setTemp] = useState(0);
   const [unit, setUnit] = useState("");
   const [hum, setHum] = useState(0);
@@ -41,11 +40,9 @@ export const Form = () => {
   const handleChangeTemperature = (event) => setTemp(event.target.value);
   const handleChangeUnit = (event) => setUnit(event.target.value);
   const handleChangeHumidity = (event) => setHum(event.target.value);
-
   const handleCalculation = () => {
     setShowIndex(true);
   };
-
   const handleClearing = () => {
     setHum(0);
     setTemp(0);
@@ -53,42 +50,6 @@ export const Form = () => {
     setIndex(0);
     setShowIndex(false);
     setClearing(true);
-  };
-
-  const convertCelsiusToFarenheit = (tempCelsius) => {
-    return (9 / 5) * tempCelsius + 32;
-  };
-
-  const calculateHeatIndex = (tempFarenheit, relHumidity) => {
-    let expT = tempFarenheit ** tempFarenheit;
-    let expH = relHumidity ** relHumidity;
-    return (
-      42.379 +
-      2.04901523 * tempFarenheit +
-      10.14333127 * relHumidity -
-      0.22475541 * tempFarenheit * relHumidity -
-      6.83783 * 10 ** -3 * expT -
-      5.481717 * 10 ** -2 * expH +
-      1.22874 * 10 ** -3 * expT * relHumidity +
-      8.5282 * 10 ** -4 * tempFarenheit * expH -
-      1.99 * 10 ** -6 * expT * expH
-    );
-  };
-
-  const sanitiseTemperature = (temp, unit) => {
-    // >>> TODO: communicate this in the UI
-    if (unit === "Celsius" && temp > 26.7) {
-      return convertCelsiusToFarenheit(temp);
-    } else {
-      if (temp > 80) {
-        return temp;
-      }
-    }
-  };
-
-  const computeResult = (temp, unit, hum) => {
-    temp = sanitiseTemperature(temp, unit);
-    return calculateHeatIndex(temp, hum);
   };
 
   useEffect(() => {
@@ -145,7 +106,7 @@ export const Form = () => {
         onClick={handleClearing}
       />
 
-      {showIndex && <p>The heat index is: {index}</p>}
+      {showIndex && <Result index={index} />}
     </>
   );
 };
