@@ -8,20 +8,18 @@ import {
   TabPanel,
   Accordion,
 } from "@chakra-ui/react";
-import { DayTab } from "../components";
+import { DayTab, Filter } from "../components";
 import { useState, useEffect } from "react";
 import { fetchTableData, fetchHistoricalData } from "../services";
 import { divideData } from "../helpers";
 
 // filter & pagination
-/*
-    <Filter />
-*/
 
 export const Weather = () => {
   const [weatherData, setWeatherData] = useState([]);
   const [combined, setCombined] = useState([]);
   const [historicalData, setHistoricalData] = useState([]);
+  const [historicalCombined, setHistoricalCombined] = useState([]);
 
   const MAX_INDEX = 168;
   const daysInWeek = [
@@ -47,13 +45,29 @@ export const Weather = () => {
   };
 
   const handleFetchHistorical = () => {
-    console.log("ran");
+    const data = fetchHistoricalData();
+    data
+      .then((res) => {
+        setHistoricalData(res.hourly);
+        setHistoricalCombined(divideData(res.hourly, MAX_INDEX)); // Batched
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   useEffect(() => {
     handleFetch();
     handleFetchHistorical();
   }, [weatherData]);
+
+  // test --- LATER, API LIMIT
+  useEffect(() => {
+    let x = setHistoricalCombined();
+    console.log(x);
+  }, [historicalCombined]);
+
+  // <Filter />
 
   return (
     <div className="content">

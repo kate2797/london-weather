@@ -3,7 +3,7 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from "@chakra-ui/react";
 
 export const Navbar = () => {
   return (
-    <nav>
+    <nav className="Navbar-container">
       <Breadcrumb fontWeight="medium" fontSize="sm">
         <BreadcrumbItem>
           <BreadcrumbLink>
