@@ -94,7 +94,7 @@ export const Calculation = () => {
     console.log("local storage: " + toString(localStorage.length)); // NIC SA NEUKLADA
     if (key > 5) {
       remove(key); // DELETE posledny
-      setKey(4);
+      setKey(5);
     }
   }, [key]);
 
