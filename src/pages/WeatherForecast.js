@@ -1,9 +1,8 @@
-import { Heading, Input, Text, Button, IconButton } from "@chakra-ui/react";
+import { Heading, Text } from "@chakra-ui/react";
 import {
   LineChart,
   Line,
   CartesianGrid,
-  XAxis,
   YAxis,
   Tooltip,
   Legend,

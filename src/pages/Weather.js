@@ -9,24 +9,14 @@ import {
 } from "@chakra-ui/react";
 import { DataTable, Filter } from "../components";
 import { useState, useEffect } from "react";
-import { fetchTableData } from "../services";
+import { fetchTableData, fetchHistoricalData } from "../services";
 import {
   roundFloatValue,
   convertTimeToString,
   convertWeatherCode,
 } from "../helpers";
 
-/*
-for London
-  - hourly forecast for the next few days (a week)
-  - hourly hist. weather (last week)
-the entire display for curr & historical => 1 component, just pass down different data
-*/
-// hourly for next few days, as we're getting before
-
-// next: filtering
-
-// then: get the historical data
+// fetchHistoricalData(); -> show in the other tab
 
 export const Weather = () => {
   const [hum, setHum] = useState([]);
@@ -50,9 +40,7 @@ export const Weather = () => {
       });
   }, []);
 
-  useEffect(() => {
-    // vsetky data v ok formate, potom mozem display...
-  }, [hum, pressure, temp, time, code]);
+  useEffect(() => {}, [hum, pressure, temp, time, code]); // Formatted data
 
   return (
     <div className="content">
