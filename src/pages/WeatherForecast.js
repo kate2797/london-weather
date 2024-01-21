@@ -12,18 +12,6 @@ import { RepeatIcon } from "@chakra-ui/icons";
 import { useState, useEffect } from "react";
 import { fetchChartData } from "../services";
 
-/*
-params needed –> /forecast:
-  start_date
-  end_date
-  // by default vracia 7 poslednych dni
-*/
-/*
-  user: pick date range
-  - hocikolko dni, cize os TIME sa musi zmenit ak dlhsie ako 7 dni atd.
-  - dd/mm/yy
-  */
-
 export const WeatherForecast = () => {
   const [datetime, setDatetime] = useState([]);
   const [temp, setTemp] = useState([]);
@@ -53,11 +41,16 @@ export const WeatherForecast = () => {
       let entry = {
         name: new Date(datetime[i]).toLocaleDateString(),
         temperature: Math.round(temp[i] * 10) / 10,
+        day: new Date(datetime[i]).toLocaleString("en-us", {
+          weekday: "short",
+        }),
       };
       weatherData.push(entry);
     }
     return weatherData;
   };
+
+  //  <XAxis />
 
   const renderLineChart = (
     <div className="chart">
@@ -76,11 +69,6 @@ export const WeatherForecast = () => {
         }}
       >
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis
-          dataKey="name"
-          tickCount={7}
-          ticks={["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]}
-        />
         <YAxis />
         <Tooltip />
         <Legend />
@@ -103,28 +91,7 @@ export const WeatherForecast = () => {
         Aute consequat qui esse exercitation. Consectetur mollit laboris labore
         officia dolore laborum eiusmod sit tempor dolor non.
       </Text>
-
       {renderLineChart}
-
-      <Heading as="h4" size="md">
-        Select time range
-      </Heading>
-
-      <div>
-        <Text mb="8px">From</Text>
-        <Input placeholder="From" isRequired={true} />
-      </div>
-
-      <div>
-        <Text mb="8px">To</Text>
-        <Input placeholder="From" isRequired={true} />
-      </div>
-
-      <Button colorScheme="teal" variant="solid">
-        Plot data
-      </Button>
-
-      <IconButton aria-label="Repeat selection" icon={<RepeatIcon />} />
     </div>
   );
 };
