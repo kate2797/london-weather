@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { RepeatIcon } from "@chakra-ui/icons";
 import { Result } from "./";
 import { computeResult } from "../helpers";
+import { useLocalStorage } from "../hooks";
 
 /*
     TODO
@@ -37,6 +38,13 @@ export const Calculation = () => {
   const [showIndex, setShowIndex] = useState(false);
   const [clearing, setClearing] = useState(false);
 
+  // TODO
+  // AK BUDE 5 items in LOCAL, VYMAZ POSLEDNY
+
+  // localStorage
+  const [key, setKey] = useState(1);
+  //const [value, setValue] = useLocalStorage(toString(key));
+
   const handleChangeTemperature = (event) => setTemp(event.target.value);
   const handleChangeUnit = (event) => setUnit(event.target.value);
   const handleChangeHumidity = (event) => setHum(event.target.value);
@@ -52,12 +60,43 @@ export const Calculation = () => {
     setClearing(true);
   };
 
+  const getItem = (key) => {
+    return localStorage.getItem(toString(key));
+  };
+
+  const store = (key, value) => {
+    console.log("saving this value: " + toString(value));
+    console.log("with the key: " + toString(key));
+    localStorage.setItem(toString(key), toString(value));
+  };
+
+  const remove = (key) => {
+    localStorage.removeItem(toString(key));
+  };
+
+  // ON CLICK --  ULOZILI SME
+  const handleResult = () => {
+    setKey((prev) => prev + 1);
+    console.log(key, index);
+    store(key, index);
+  };
+
   useEffect(() => {
     if (temp != null && unit != null && hum != null) {
       let result = computeResult(temp, unit, hum);
-      setIndex(result);
+      setIndex(result); // MAM INDEX
     }
   }, [temp, unit, hum]);
+
+  // TEST
+  useEffect(() => {
+    console.log(key);
+    console.log("local storage: " + toString(localStorage.length)); // NIC SA NEUKLADA
+    if (key > 5) {
+      remove(key); // DELETE posledny
+      setKey(4);
+    }
+  }, [key]);
 
   useEffect(() => {}, [clearing]);
 
@@ -72,7 +111,6 @@ export const Calculation = () => {
           isRequired={true}
         />
       </div>
-
       <div>
         <Text mb="8px">Unit</Text>
         <Select
@@ -85,7 +123,6 @@ export const Calculation = () => {
           <option value="Farenheit">Farenheit</option>
         </Select>
       </div>
-
       <div>
         <Text mb="8px">Relative Humidity (%)</Text>
         <Input
@@ -96,17 +133,35 @@ export const Calculation = () => {
         />
       </div>
 
-      <Button colorScheme="teal" variant="solid" onClick={handleCalculation}>
+      <Button
+        colorScheme="teal"
+        variant="solid"
+        onClick={() => {
+          handleCalculation();
+          handleResult();
+        }}
+      >
         Calculate
       </Button>
-
       <IconButton
         aria-label="Repeat calculation"
         icon={<RepeatIcon />}
         onClick={handleClearing}
       />
-
       {showIndex && <Result index={index} />}
     </>
   );
 };
+
+/*
+
+onClick={
+  () => {
+  handleCalculation()
+  handleResult()
+  }
+}
+
+
+
+*/
