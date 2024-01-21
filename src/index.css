@@ -40,6 +40,22 @@ body {
   margin-top: 5vh;
 }
 
+.HeatCalculator-field {
+  margin-bottom: 2vh;
+}
+
+.HeatCalculator-CTAs {
+  margin-top: 30px;
+}
+
+.HeatCalculator-btn {
+  margin-right: 10px;
+}
+
+.header {
+  margin-bottom: 3vh;
+}
+
 .App-header {
   display: flex;
   flex-direction: column;

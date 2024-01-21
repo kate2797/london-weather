@@ -17,11 +17,9 @@ import { Result } from "./";
 import { computeResult } from "../helpers";
 
 /*
-  // chakra - achieving reponsiveness
   // component documentation
   // communicate why cannot calc if below a treshold –> min temp 80F etc.
   // edge cases -> hum: min 0, max 100 etc.
-
   HEAT INDEX, formula fix
 */
 
@@ -109,8 +107,10 @@ export const Calculation = () => {
 
   return (
     <>
-      <div>
-        <Text mb="8px">Temperature</Text>
+      <div className="HeatCalculator-field">
+        <Text mb="8px">
+          <strong>Temperature</strong>
+        </Text>
         <Input
           value={temp}
           onChange={handleChangeTemperature}
@@ -118,20 +118,21 @@ export const Calculation = () => {
           isRequired={true}
         />
       </div>
-      <div>
-        <Text mb="8px">Unit</Text>
-        <Select
-          placeholder="Unit"
-          isRequired={true}
-          value={unit}
-          onChange={handleChangeUnit}
-        >
+
+      <div className="HeatCalculator-field">
+        <Text mb="8px">
+          <strong>Unit</strong>
+        </Text>
+        <Select isRequired={true} value={unit} onChange={handleChangeUnit}>
           <option value="Celsius">Celsius</option>
           <option value="Farenheit">Farenheit</option>
         </Select>
       </div>
-      <div>
-        <Text mb="8px">Relative Humidity (%)</Text>
+
+      <div className="HeatCalculator-field">
+        <Text mb="8px">
+          <strong>Relative Humidity (%)</strong>
+        </Text>
         <Input
           value={hum}
           onChange={handleChangeHumidity}
@@ -140,28 +141,38 @@ export const Calculation = () => {
         />
       </div>
 
-      <Button colorScheme="teal" variant="solid" onClick={handleCalculation}>
-        Calculate
-      </Button>
+      <div className="HeatCalculator-CTAs">
+        <Button
+          colorScheme="teal"
+          variant="solid"
+          onClick={handleCalculation}
+          className="HeatCalculator-btn"
+        >
+          Calculate
+        </Button>
 
-      <Popover>
-        <PopoverTrigger>
-          <Button colorScheme="yellow">History</Button>
-        </PopoverTrigger>
-        <PopoverContent>
-          <PopoverArrow />
-          <PopoverCloseButton />
-          {getResults().map((res) => {
-            return <PopoverBody key={i++}>{res}</PopoverBody>;
-          })}
-        </PopoverContent>
-      </Popover>
+        <Popover>
+          <PopoverTrigger>
+            <Button colorScheme="orange" className="HeatCalculator-btn">
+              History
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent>
+            <PopoverArrow />
+            <PopoverCloseButton />
+            {getResults().map((res) => {
+              return <PopoverBody key={i++}>{res}</PopoverBody>;
+            })}
+          </PopoverContent>
+        </Popover>
 
-      <IconButton
-        aria-label="Repeat calculation"
-        icon={<RepeatIcon />}
-        onClick={handleClearing}
-      />
+        <IconButton
+          className="HeatCalculator-btn"
+          aria-label="Repeat calculation"
+          icon={<RepeatIcon />}
+          onClick={handleClearing}
+        />
+      </div>
 
       {showIndex && <Result index={index} />}
     </>

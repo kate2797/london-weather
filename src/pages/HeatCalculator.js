@@ -4,16 +4,16 @@ import { Calculation } from "../components";
 export const HeatCalculator = () => {
   return (
     <div className="content">
-      <div>
-        <Heading as="h3" size="lg">
+      <div className="header">
+        <Heading as="h3" size="lg" marginBottom={2}>
           Heat Index Calculator
         </Heading>
         <Text fontSize="md">
-          Aute consequat qui esse exercitation. Consectetur mollit laboris
-          labore officia dolore laborum eiusmod sit tempor dolor non.
+          The heat index, factoring in both relative humidity and air
+          temperature, is calculated to provide a more accurate representation
+          of the perceived temperature.
         </Text>
       </div>
-
       <Calculation />
     </div>
   );
