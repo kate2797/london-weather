@@ -1,6 +1,6 @@
 # Getting Started with Weather App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app)
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and can be found [here](https://kate2797.github.io/weather_app/)
 
 ```
 $ weather_app/src
