@@ -73,14 +73,14 @@ export const Weather = () => {
     <div className="content">
       {combined && (
         <>
-          <Heading as="h3" size="lg">
+          <Heading as="h3" size="lg" marginBottom={2}>
             Weather
           </Heading>
           <Text fontSize="md">
-            Aute consequat qui esse exercitation. Consectetur mollit laboris
-            labore officia dolore laborum eiusmod sit tempor dolor non.
+            The week's weather, shown hourly in a table, features temperature,
+            along with pressure, humidity, and weather status
           </Text>
-          <Tabs isFitted variant="enclosed">
+          <Tabs isFitted variant="enclosed" colorScheme="teal" marginTop="10">
             <TabList mb="1em">
               <Tab>Forecast for next week</Tab>
               <Tab>Forecast for last week</Tab>

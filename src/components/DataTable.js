@@ -19,11 +19,11 @@ export const DataTable = ({ data }) => {
           <Table variant="striped" colorScheme="teal">
             <Thead>
               <Tr>
-                <Th>Datetime</Th>
-                <Th>Weather State</Th>
+                <Th>Date</Th>
+                <Th>Status</Th>
                 <Th isNumeric>Temperature (°C)</Th>
                 <Th isNumeric>Pressure (hPa)</Th>
-                <Th isNumeric>Relative Humidity (%)</Th>
+                <Th isNumeric>Humidity (%)</Th>
               </Tr>
             </Thead>
             <Tbody>
