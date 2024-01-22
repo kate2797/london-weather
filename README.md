@@ -2,12 +2,12 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app)
 
-$ weather_app/src
-.
-├── components
-│   ├── Navbar.js
-├── pages
-│   ├── Weather.js
+$ weather_app/src <br>
+. <br>
+├── components <br>
+│   ├── Navbar.js <br>
+├── pages <br>
+│   ├── Weather.js <br>
 ├── hooks
 │   ├── useData.js
 ├── helpers
