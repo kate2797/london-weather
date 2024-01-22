@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Heading, Text } from "@chakra-ui/react";
 import {
   LineChart,
@@ -8,7 +9,6 @@ import {
   Tooltip,
   Legend,
 } from "recharts";
-import { useState, useEffect } from "react";
 import { fetchChartData } from "../services";
 
 export const WeatherForecast = () => {

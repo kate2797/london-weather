@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import {
   Button,
   IconButton,
@@ -8,7 +9,6 @@ import {
   PopoverArrow,
   PopoverCloseButton,
 } from "@chakra-ui/react";
-import { useState, useEffect } from "react";
 import { RepeatIcon } from "@chakra-ui/icons";
 import { Result, UserInput } from "./";
 import { computeResult } from "../helpers";
@@ -100,7 +100,6 @@ export const Calculation = () => {
         >
           Calculate
         </Button>
-
         <Popover>
           <PopoverTrigger>
             <Button colorScheme="orange" className="HeatCalculator-btn">

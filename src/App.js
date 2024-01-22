@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
-import { Weather, WeatherForecast, HeatCalculator } from "./pages";
 import { ChakraProvider } from "@chakra-ui/react";
+import { Weather, WeatherForecast, HeatCalculator } from "./pages";
 import { Navbar } from "./components";
 
 const App = () => {

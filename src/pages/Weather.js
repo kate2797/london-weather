@@ -8,11 +8,10 @@ import {
   TabPanel,
   Accordion,
 } from "@chakra-ui/react";
-import { DayTab, Filter } from "../components";
+import { DayTab } from "../components";
 import { useData, useHistData } from "../hooks";
 import { WEEK_DAYS } from "../helpers";
 
-// filter
 export const Weather = () => {
   const [data] = useData();
   const [histData] = useHistData();
