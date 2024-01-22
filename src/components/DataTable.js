@@ -8,7 +8,7 @@ import {
   TableContainer,
 } from "@chakra-ui/react";
 
-import { WMO } from "../services";
+import { WMO } from "../helpers";
 
 // Displays hourly data per day
 export const DataTable = ({ data }) => {

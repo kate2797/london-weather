@@ -9,69 +9,17 @@ import {
   Accordion,
 } from "@chakra-ui/react";
 import { DayTab, Filter } from "../components";
-import { useState, useEffect } from "react";
-import { fetchTableData, fetchHistoricalData } from "../services";
-import { divideData } from "../helpers";
+import { useData, useHistData } from "../hooks";
+import { WEEK_DAYS } from "../helpers";
 
 // filter & pagination
-
 export const Weather = () => {
-  const [weatherData, setWeatherData] = useState([]);
-  const [combined, setCombined] = useState([]);
-  const [historicalData, setHistoricalData] = useState([]);
-  const [historicalCombined, setHistoricalCombined] = useState([]);
-
-  const MAX_INDEX = 168;
-  const daysInWeek = [
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday",
-  ];
-
-  const handleFetch = () => {
-    const data = fetchTableData();
-    data
-      .then((res) => {
-        setWeatherData(res.hourly);
-        setCombined(divideData(res.hourly, MAX_INDEX)); // Batched
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const handleFetchHistorical = () => {
-    const data = fetchHistoricalData();
-    data
-      .then((res) => {
-        setHistoricalData(res.hourly);
-        setHistoricalCombined(divideData(res.hourly, MAX_INDEX)); // Batched
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  useEffect(() => {
-    handleFetch();
-    handleFetchHistorical();
-  }, [weatherData]);
-
-  // test --- LATER, API LIMIT
-  useEffect(() => {
-    let x = setHistoricalCombined();
-    console.log(x);
-  }, [historicalCombined]);
-
-  // <Filter />
+  const [data] = useData();
+  const [histData] = useHistData();
 
   return (
     <div className="content">
-      {combined && (
+      {data && histData && (
         <>
           <Heading as="h3" size="lg" marginBottom={2}>
             Weather
@@ -88,15 +36,15 @@ export const Weather = () => {
             <TabPanels>
               <TabPanel>
                 <Accordion defaultIndex={[0]} allowMultiple>
-                  {daysInWeek.map((day, index) => {
-                    return <DayTab title={day} data={combined[index]} />;
+                  {WEEK_DAYS.map((day, index) => {
+                    return <DayTab title={day} data={data[index]} />;
                   })}
                 </Accordion>
               </TabPanel>
               <TabPanel>
                 <Accordion defaultIndex={[0]} allowMultiple>
-                  {daysInWeek.map((day) => {
-                    return <DayTab title={day} />;
+                  {WEEK_DAYS.map((day, index) => {
+                    return <DayTab title={day} data={histData[index]} />;
                   })}
                 </Accordion>
               </TabPanel>

@@ -1,4 +1,4 @@
-import { WMO } from "../services";
+import { WMO } from "./constants";
 
 export const divideData = (weatherData, MAX_LENGTH) => {
   let data = {

@@ -17,10 +17,6 @@ import { RepeatIcon, WarningIcon } from "@chakra-ui/icons";
 import { Result } from "./";
 import { computeResult } from "../helpers";
 
-/*
-  HEAT INDEX, formula fix ???
-*/
-
 export const Calculation = () => {
   const [temp, setTemp] = useState(0);
   const [unit, setUnit] = useState("");
@@ -28,7 +24,7 @@ export const Calculation = () => {
   const [index, setIndex] = useState(0);
   const [showIndex, setShowIndex] = useState(false);
   const [clearing, setClearing] = useState(false);
-  const [results, setResults] = useState([]); // localStorage // RETHINK, maybe not needed!!
+  const [results, setResults] = useState([]); // localStorage
   const [key, setKey] = useState(0); // localStorage
 
   const handleChangeTemperature = (event) => setTemp(event.target.value);
@@ -46,7 +42,7 @@ export const Calculation = () => {
     setClearing(true);
   };
 
-  // ked uz nieco stored, nie od 0, issues ---- ???
+  // check, if values are there already
   const loadStorage = () => {
     let temp = [];
     for (let i = 0; i < localStorage.length; i++) {
@@ -65,7 +61,7 @@ export const Calculation = () => {
     showIndex &&
     index !== undefined &&
     key !== undefined &&
-    !results.includes(index); // ? check again, do we update this, no.. so ?????
+    !results.includes(index);
 
   useEffect(() => {
     //localStorage.clear();
@@ -101,7 +97,7 @@ export const Calculation = () => {
     return temp;
   };
 
-  let i = 0; // da sa toto cez useState ?????
+  let i = 0;
 
   return (
     <>
