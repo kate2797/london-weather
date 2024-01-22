@@ -4,12 +4,14 @@ import {
   Line,
   CartesianGrid,
   YAxis,
+  XAxis,
   Tooltip,
   Legend,
 } from "recharts";
-import { RepeatIcon } from "@chakra-ui/icons";
 import { useState, useEffect } from "react";
 import { fetchChartData } from "../services";
+
+// co je s datum datami?? check!
 
 export const WeatherForecast = () => {
   const [datetime, setDatetime] = useState([]);
@@ -53,9 +55,7 @@ export const WeatherForecast = () => {
 
   const renderLineChart = (
     <div className="chart">
-      <Heading as="h5" size="sm">
-        {`${startRange} - ${endRange}`}
-      </Heading>
+      <Text marginBottom={3}>{`${startRange} - ${endRange}`}</Text>
       <LineChart
         width={900}
         height={300}
@@ -69,12 +69,14 @@ export const WeatherForecast = () => {
       >
         <CartesianGrid strokeDasharray="3 3" />
         <YAxis />
+        <XAxis dataKey="day" allowDuplicatedCategory={false} />
         <Tooltip />
-        <Legend />
+        <Legend height={36} />
         <Line
           type="monotone"
           dataKey="temperature"
-          stroke="#8884d8"
+          dot={{ stroke: "teal" }}
+          stroke="teal"
           activeDot={{ r: 8 }}
         />
       </LineChart>
@@ -83,12 +85,12 @@ export const WeatherForecast = () => {
 
   return (
     <div className="content">
-      <Heading as="h3" size="lg">
+      <Heading as="h3" size="lg" marginBottom={2}>
         Weather Forecast
       </Heading>
       <Text fontSize="md">
-        Aute consequat qui esse exercitation. Consectetur mollit laboris labore
-        officia dolore laborum eiusmod sit tempor dolor non.
+        7-day weather forecast, displayed on an hourly graph, illustrates the
+        correlation between time and temperature
       </Text>
       {renderLineChart}
     </div>
