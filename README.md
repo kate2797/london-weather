@@ -7,6 +7,7 @@ $ weather_app/src
 .
 ├── components
 │   ├── Navbar.js
+    ├── index.js
 ├── pages
 │   ├── Weather.js
 ├── hooks
