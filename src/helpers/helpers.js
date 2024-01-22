@@ -1,9 +1,5 @@
 import { WMO } from "../services";
 
-export const convertCelsiusToFarenheit = (tempCelsius) => {
-  return (9 / 5) * tempCelsius + 32;
-};
-
 export const divideData = (weatherData, MAX_LENGTH) => {
   let data = {
     0: [],
@@ -42,22 +38,18 @@ export const divideData = (weatherData, MAX_LENGTH) => {
   return data;
 };
 
-export const sanitiseTemperature = (temp, unit) => {
-  if (unit === "Celsius" && temp > 26.7) {
-    return convertCelsiusToFarenheit(temp);
-  } else {
-    if (temp > 80) {
-      return temp;
-    }
+export const convert = (temp, unit) => {
+  if (unit === "Celsius") {
+    return (9 / 5) * temp + 32;
   }
+  return temp;
 };
 
 export const computeResult = (temp, unit, hum) => {
-  temp = sanitiseTemperature(temp, unit);
+  temp = convert(temp, unit);
   return calculateHeatIndex(temp, hum);
 };
 
-//fix --- AJ KED ZADA V CEL, CONVERT NA FAREN !! robime to?
 export const calculateHeatIndex = (tempFarenheit, relHumidity) => {
   let expT = tempFarenheit * tempFarenheit;
   let expH = relHumidity * relHumidity;
