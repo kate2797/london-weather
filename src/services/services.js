@@ -1,4 +1,5 @@
 import { fetchWeatherApi } from "openmeteo";
+import { range } from "../helpers";
 
 export const fetchTableData = async () => {
   const params = {
@@ -14,12 +15,6 @@ export const fetchTableData = async () => {
 
   const url = "https://api.open-meteo.com/v1/forecast";
   const responses = await fetchWeatherApi(url, params);
-
-  // Helper function to form time ranges
-  const range = (start, stop, step) =>
-    Array.from({ length: (stop - start) / step }, (_, i) => start + i * step);
-
-  // Process first location
   const response = responses[0];
   const hourly = response.hourly();
   const utcOffsetSeconds = response.utcOffsetSeconds();
@@ -48,11 +43,6 @@ export const fetchChartData = async () => {
   };
   const url = "https://api.open-meteo.com/v1/forecast";
   const responses = await fetchWeatherApi(url, params);
-
-  const range = (start, stop, step) =>
-    Array.from({ length: (stop - start) / step }, (_, i) => start + i * step);
-
-  // Processing data
   const response = responses[0];
   const utcOffsetSeconds = response.utcOffsetSeconds();
   const hourly = response.hourly();
@@ -84,11 +74,6 @@ export const fetchHistoricalData = async () => {
   };
   const url = "https://api.open-meteo.com/v1/forecast";
   const responses = await fetchWeatherApi(url, params);
-
-  // Helper function to form time ranges
-  const range = (start, stop, step) =>
-    Array.from({ length: (stop - start) / step }, (_, i) => start + i * step);
-
   const response = responses[0];
   const hourly = response.hourly();
   const utcOffsetSeconds = response.utcOffsetSeconds();
@@ -106,15 +91,5 @@ export const fetchHistoricalData = async () => {
       surfacePressure: hourly.variables(3).valuesArray(),
     },
   };
-
-  for (let i = 0; i < weatherData.hourly.time.length; i++) {
-    console.log(
-      weatherData.hourly.time[i].toISOString(),
-      weatherData.hourly.temperature2m[i],
-      weatherData.hourly.relativeHumidity2m[i],
-      weatherData.hourly.weatherCode[i],
-      weatherData.hourly.surfacePressure[i]
-    );
-  }
   return weatherData;
 };

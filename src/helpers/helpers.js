@@ -1,6 +1,19 @@
 import { WMO } from "./constants";
 
+export const range = (start, stop, step) => {
+  return Array.from(
+    { length: (stop - start) / step },
+    (_, i) => start + i * step
+  );
+};
+
 export const divideData = (weatherData, MAX_LENGTH) => {
+  let relativeHumidity2m = weatherData.relativeHumidity2m; // Array
+  let surfacePressure = weatherData.surfacePressure;
+  let temperature2m = weatherData.temperature2m;
+  let time = weatherData.time;
+  let weatherCode = weatherData.weatherCode;
+  let combined = [];
   let data = {
     0: [],
     1: [],
@@ -10,12 +23,6 @@ export const divideData = (weatherData, MAX_LENGTH) => {
     5: [],
     6: [],
   };
-  let relativeHumidity2m = weatherData.relativeHumidity2m; // Array
-  let surfacePressure = weatherData.surfacePressure;
-  let temperature2m = weatherData.temperature2m;
-  let time = weatherData.time;
-  let weatherCode = weatherData.weatherCode;
-  let combined = [];
 
   for (let i = 0; i < MAX_LENGTH; i++) {
     let entry = {
