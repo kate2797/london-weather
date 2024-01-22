@@ -4,3 +4,4 @@ export { Filter } from "./Filter";
 export { Result } from "./Result";
 export { Navbar } from "./Navbar";
 export { DayTab } from "./DayTab";
+export { UserInput } from "./UserInput";

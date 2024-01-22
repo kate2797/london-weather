@@ -12,20 +12,22 @@ import {
   PopoverCloseButton,
   Tooltip,
 } from "@chakra-ui/react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { RepeatIcon, WarningIcon } from "@chakra-ui/icons";
-import { Result } from "./";
+import { Result, UserInput } from "./";
 import { computeResult } from "../helpers";
 
 export const Calculation = () => {
   const [temp, setTemp] = useState(0);
   const [unit, setUnit] = useState("");
   const [hum, setHum] = useState(0);
-  const [index, setIndex] = useState(0);
+
+  const [index, setIndex] = useState(0); // Heat index
   const [showIndex, setShowIndex] = useState(false);
-  const [clearing, setClearing] = useState(false);
-  const [results, setResults] = useState([]); // localStorage
-  const [key, setKey] = useState(0); // localStorage
+  const [clearing, setClearing] = useState(false); // Computation clearance
+  const [indices, setIndices] = useState([]); // Latest 5 results
+
+  //const [results, setResults] = useState([]); // localStorage
 
   const handleChangeTemperature = (event) => setTemp(event.target.value);
   const handleChangeUnit = (event) => setUnit(event.target.value);
@@ -42,6 +44,7 @@ export const Calculation = () => {
     setClearing(true);
   };
 
+  //????
   const loadStorage = () => {
     let temp = [];
     for (let i = 0; i < localStorage.length; i++) {
@@ -51,112 +54,67 @@ export const Calculation = () => {
     return temp;
   };
 
-  const store = () => {
-    localStorage.setItem(key, index);
-    setKey((prev) => prev + 1);
-  };
-
-  let isValid =
-    showIndex &&
-    index !== undefined &&
-    key !== undefined &&
-    !results.includes(index);
-
   useEffect(() => {
-    //localStorage.clear();
-    //setResults(loadStorage());
+    // localStorage.clear();
+    setIndices(loadStorage());
   }, []);
 
-  useEffect(() => {
-    if (temp != null && unit != null && hum != null) {
-      let result = computeResult(temp, unit, hum);
-      setIndex(Math.round(result * 10) / 10); // Compute heat index
+  const isStored = (result) => {
+    for (let i = 0; i <= localStorage.length; i++) {
+      let index = localStorage.getItem(i);
+      if (result === index) {
+        return true;
+      }
+      return false;
     }
-  }, [temp, hum]);
+  };
 
-  useEffect(() => {
-    if (results.length === 6) {
-      setKey(0); // Reset our keys
-      //localStorage.length
+  const updateStorage = (arr) => {
+    localStorage.clear();
+    for (let i = 0; i < arr.length; i++) {
+      localStorage.setItem("index", arr[i]);
     }
-    if (isValid) {
-      store();
-      // console log
-      console.log("storage: " + localStorage.length);
-      console.log("local state: " + results.length);
+  };
+
+  const handleClick = () => {
+    let result = Math.round(computeResult(temp, unit, hum) * 10) / 10;
+    setIndex(result);
+
+    if (!isStored(result)) {
+      // Rewrite previous entries
+      if (indices.length === 5) {
+        let copy = [...indices];
+        copy.pop(); // Removing the last computation
+        setIndices(copy);
+        updateStorage(copy); // Sync local & dynamic state
+      }
+
+      localStorage.setItem("index", result); // Store if not there already
+      setShowIndex(true);
+      setIndices((prev) => {
+        return [result, ...prev];
+      });
     }
-  }, [showIndex]);
+  };
 
   useEffect(() => {}, [clearing]);
 
-  const getResults = () => {
-    let temp = [];
-    for (let i = 0; i <= 5; i++) {
-      let res = localStorage.getItem(i);
-      temp.push(res);
-    }
-    return temp;
-  };
-
-  let i = 0;
-
   return (
     <>
-      <div className="HeatCalculator-field">
-        <div className="HeatCalculator-box">
-          <Text mb="8px" marginRight={2}>
-            <strong>Temperature</strong>
-          </Text>
-          <Tooltip label="Must be higher than 26.7°C or 80°F" fontSize="md">
-            <WarningIcon color="orange" />
-          </Tooltip>
-        </div>
-
-        <Input
-          value={temp}
-          onChange={handleChangeTemperature}
-          placeholder="Temperature"
-          isRequired={true}
-        />
-      </div>
-
-      <div className="HeatCalculator-field">
-        <Text mb="8px">
-          <strong>Unit</strong>
-        </Text>
-        <Select
-          isRequired={true}
-          value={unit}
-          onChange={handleChangeUnit}
-          default="Celsius"
-        >
-          <option value="Celsius">Celsius</option>
-          <option value="Farenheit">Farenheit</option>
-        </Select>
-      </div>
-
-      <div className="HeatCalculator-field">
-        <div className="HeatCalculator-box">
-          <Text mb="8px" marginRight={2}>
-            <strong>Relative Humidity (%)</strong>
-          </Text>
-          <Tooltip label="Must be between 0 and 100" fontSize="md">
-            <WarningIcon color="orange" />
-          </Tooltip>
-        </div>
-        <Input
-          value={hum}
-          onChange={handleChangeHumidity}
-          placeholder="Relative Humidity"
-          isRequired={true}
-        />
-      </div>
+      <UserInput
+        temp={temp}
+        handleChangeTemperature={handleChangeTemperature}
+        unit={unit}
+        handleChangeUnit={handleChangeUnit}
+        hum={hum}
+        handleChangeHumidity={handleChangeHumidity}
+      />
 
       <div className="HeatCalculator-CTAs">
         <Button
           colorScheme="teal"
           variant="solid"
-          onClick={handleCalculation}
+          onClick={handleClick}
           className="HeatCalculator-btn"
         >
           Calculate
@@ -171,12 +129,11 @@ export const Calculation = () => {
           <PopoverContent>
             <PopoverArrow />
             <PopoverCloseButton />
-            {getResults().map((res) => {
-              return <PopoverBody key={i++}>{res}</PopoverBody>;
+            {indices.map((res, i) => {
+              return <PopoverBody key={i}>{res}</PopoverBody>;
             })}
           </PopoverContent>
         </Popover>
-
         <IconButton
           className="HeatCalculator-btn"
           aria-label="Repeat calculation"
