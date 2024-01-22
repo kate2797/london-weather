@@ -10,17 +10,15 @@ import {
   PopoverBody,
   PopoverArrow,
   PopoverCloseButton,
+  Tooltip,
 } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
-import { RepeatIcon } from "@chakra-ui/icons";
+import { RepeatIcon, WarningIcon } from "@chakra-ui/icons";
 import { Result } from "./";
 import { computeResult } from "../helpers";
 
 /*
-  // component documentation
-  // communicate why cannot calc if below a treshold –> min temp 80F etc.
-  // edge cases -> hum: min 0, max 100 etc.
-  HEAT INDEX, formula fix
+  HEAT INDEX, formula fix ???
 */
 
 export const Calculation = () => {
@@ -48,7 +46,7 @@ export const Calculation = () => {
     setClearing(true);
   };
 
-  // ked uz nieco stored, nie od 0, issues ----
+  // ked uz nieco stored, nie od 0, issues ---- ???
   const loadStorage = () => {
     let temp = [];
     for (let i = 0; i < localStorage.length; i++) {
@@ -77,7 +75,7 @@ export const Calculation = () => {
   useEffect(() => {
     if (temp != null && unit != null && hum != null) {
       let result = computeResult(temp, unit, hum);
-      setIndex(result); // Compute heat index
+      setIndex(Math.round(result * 10) / 10); // Compute heat index
     }
   }, [temp, hum]);
 
@@ -108,9 +106,14 @@ export const Calculation = () => {
   return (
     <>
       <div className="HeatCalculator-field">
-        <Text mb="8px">
-          <strong>Temperature</strong>
-        </Text>
+        <div className="HeatCalculator-box">
+          <Text mb="8px" marginRight={2}>
+            <strong>Temperature</strong>
+          </Text>
+          <Tooltip label="Must be higher than 26.7°C or 80°F" fontSize="md">
+            <WarningIcon color="orange" />
+          </Tooltip>
+        </div>
         <Input
           value={temp}
           onChange={handleChangeTemperature}
@@ -123,16 +126,26 @@ export const Calculation = () => {
         <Text mb="8px">
           <strong>Unit</strong>
         </Text>
-        <Select isRequired={true} value={unit} onChange={handleChangeUnit}>
+        <Select
+          isRequired={true}
+          value={unit}
+          onChange={handleChangeUnit}
+          default="Celsius"
+        >
           <option value="Celsius">Celsius</option>
           <option value="Farenheit">Farenheit</option>
         </Select>
       </div>
 
       <div className="HeatCalculator-field">
-        <Text mb="8px">
-          <strong>Relative Humidity (%)</strong>
-        </Text>
+        <div className="HeatCalculator-box">
+          <Text mb="8px" marginRight={2}>
+            <strong>Relative Humidity (%)</strong>
+          </Text>
+          <Tooltip label="Must be between 0 and 100" fontSize="md">
+            <WarningIcon color="orange" />
+          </Tooltip>
+        </div>
         <Input
           value={hum}
           onChange={handleChangeHumidity}
@@ -172,9 +185,8 @@ export const Calculation = () => {
           icon={<RepeatIcon />}
           onClick={handleClearing}
         />
+        {showIndex && <Result index={index} />}
       </div>
-
-      {showIndex && <Result index={index} />}
     </>
   );
 };

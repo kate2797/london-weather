@@ -33,6 +33,13 @@ body {
   margin-bottom: 5vh;
 }
 
+.HeatCalculator-box {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  align-content: baseline;
+}
+
 .App-content {
   flex-direction: column;
   align-items: center;
@@ -46,6 +53,7 @@ body {
 
 .HeatCalculator-CTAs {
   margin-top: 30px;
+  display: flex;
 }
 
 .HeatCalculator-btn {

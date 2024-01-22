@@ -57,19 +57,20 @@ export const computeResult = (temp, unit, hum) => {
   return calculateHeatIndex(temp, hum);
 };
 
+//fix --- AJ KED ZADA V CEL, CONVERT NA FAREN !! robime to?
 export const calculateHeatIndex = (tempFarenheit, relHumidity) => {
-  let expT = tempFarenheit ** tempFarenheit;
-  let expH = relHumidity ** relHumidity;
+  let expT = tempFarenheit * tempFarenheit;
+  let expH = relHumidity * relHumidity;
   return (
-    42.379 +
+    -42.379 +
     2.04901523 * tempFarenheit +
-    10.14333127 * relHumidity -
-    0.22475541 * tempFarenheit * relHumidity -
-    6.83783 * 10 ** -3 * expT -
-    5.481717 * 10 ** -2 * expH +
-    1.22874 * 10 ** -3 * expT * relHumidity +
-    8.5282 * 10 ** -4 * tempFarenheit * expH -
-    1.99 * 10 ** -6 * expT * expH
+    10.14333127 * relHumidity +
+    -0.22475541 * tempFarenheit * relHumidity +
+    -0.00683783 * expT +
+    -0.05481717 * expH +
+    0.00122874 * expT * relHumidity +
+    0.00085282 * tempFarenheit * expH +
+    -0.00000199 * expT * expH
   );
 };
 
