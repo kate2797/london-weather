@@ -7,6 +7,16 @@ export const range = (start, stop, step) => {
   );
 };
 
+export const getDayHours = () => {
+  let hours = [];
+  let suffix = ":00";
+  for (let i = 0; i < 24; i++) {
+    let hour = i + suffix;
+    hours.push(hour);
+  }
+  return hours;
+};
+
 export const divideData = (weatherData, MAX_LENGTH) => {
   let relativeHumidity2m = weatherData.relativeHumidity2m; // Array
   let surfacePressure = weatherData.surfacePressure;

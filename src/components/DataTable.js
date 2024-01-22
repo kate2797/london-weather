@@ -7,11 +7,11 @@ import {
   Td,
   TableContainer,
 } from "@chakra-ui/react";
+import { WMO, getDayHours } from "../helpers";
 
-import { WMO } from "../helpers";
-
-// Displays hourly data per day
 export const DataTable = ({ data }) => {
+  const hours = getDayHours();
+
   return (
     data && (
       <>
@@ -19,17 +19,19 @@ export const DataTable = ({ data }) => {
           <Table variant="striped" colorScheme="teal">
             <Thead>
               <Tr>
+                <Th>hour</Th>
                 <Th>Date</Th>
-                <Th>Status</Th>
+                <Th>State</Th>
                 <Th isNumeric>Temperature (°C)</Th>
-                <Th isNumeric>Pressure (hPa)</Th>
-                <Th isNumeric>Humidity (%)</Th>
+                <Th isNumeric>Pressure</Th>
+                <Th isNumeric>Humidity</Th>
               </Tr>
             </Thead>
             <Tbody>
-              {data.map((entry) => {
+              {data.map((entry, index) => {
                 return (
                   <Tr>
+                    <Td>{hours[index]}</Td>
                     <Td>{new Date(entry.time).toLocaleDateString()}</Td>
                     <Td>{WMO[entry.code]}</Td>
                     <Td isNumeric>{Math.round(entry.temp * 10) / 10}</Td>
