@@ -1,8 +1,5 @@
 import {
-  Input,
   Button,
-  Select,
-  Text,
   IconButton,
   Popover,
   PopoverTrigger,
@@ -10,10 +7,9 @@ import {
   PopoverBody,
   PopoverArrow,
   PopoverCloseButton,
-  Tooltip,
 } from "@chakra-ui/react";
-import { useState, useEffect, useMemo } from "react";
-import { RepeatIcon, WarningIcon } from "@chakra-ui/icons";
+import { useState, useEffect } from "react";
+import { RepeatIcon } from "@chakra-ui/icons";
 import { Result, UserInput } from "./";
 import { computeResult } from "../helpers";
 
@@ -21,20 +17,16 @@ export const Calculation = () => {
   const [temp, setTemp] = useState(0);
   const [unit, setUnit] = useState("");
   const [hum, setHum] = useState(0);
-
   const [index, setIndex] = useState(0); // Heat index
   const [showIndex, setShowIndex] = useState(false);
   const [clearing, setClearing] = useState(false); // Computation clearance
-  const [indices, setIndices] = useState([]); // Latest 5 results
-
-  //const [results, setResults] = useState([]); // localStorage
+  const [indices, setIndices] = useState(
+    JSON.parse(localStorage.getItem("indices")) || []
+  ); // Latest 5 results
 
   const handleChangeTemperature = (event) => setTemp(event.target.value);
   const handleChangeUnit = (event) => setUnit(event.target.value);
   const handleChangeHumidity = (event) => setHum(event.target.value);
-  const handleCalculation = () => {
-    setShowIndex(true);
-  };
   const handleClearing = () => {
     setShowIndex(false); // Clearing before recomputing
     setHum(0);
@@ -44,20 +36,9 @@ export const Calculation = () => {
     setClearing(true);
   };
 
-  //????
-  const loadStorage = () => {
-    let temp = [];
-    for (let i = 0; i < localStorage.length; i++) {
-      let res = localStorage.getItem(i);
-      temp.push(res);
-    }
-    return temp;
-  };
-
   useEffect(() => {
-    // localStorage.clear();
-    setIndices(loadStorage());
-  }, []);
+    localStorage.setItem("indices", JSON.stringify(indices)); // Store current state locally
+  }, [indices]);
 
   const isStored = (result) => {
     for (let i = 0; i <= localStorage.length; i++) {
@@ -129,9 +110,10 @@ export const Calculation = () => {
           <PopoverContent>
             <PopoverArrow />
             <PopoverCloseButton />
-            {indices.map((res, i) => {
-              return <PopoverBody key={i}>{res}</PopoverBody>;
-            })}
+            {indices &&
+              indices.map((res, i) => {
+                return <PopoverBody key={i}>{res}</PopoverBody>;
+              })}
           </PopoverContent>
         </Popover>
         <IconButton
