@@ -12,7 +12,7 @@ import { DayTab, Filter } from "../components";
 import { useData, useHistData } from "../hooks";
 import { WEEK_DAYS } from "../helpers";
 
-// filter & pagination
+// filter
 export const Weather = () => {
   const [data] = useData();
   const [histData] = useHistData();

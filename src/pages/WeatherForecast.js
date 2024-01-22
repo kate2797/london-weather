@@ -11,8 +11,6 @@ import {
 import { useState, useEffect } from "react";
 import { fetchChartData } from "../services";
 
-// co je s datum datami?? check!
-
 export const WeatherForecast = () => {
   const [datetime, setDatetime] = useState([]);
   const [temp, setTemp] = useState([]);
@@ -27,7 +25,7 @@ export const WeatherForecast = () => {
         setTemp(res[1]);
       })
       .catch((err) => {
-        console.log(err); // catch errors
+        console.log(err);
       });
   }, []);
 
@@ -50,8 +48,6 @@ export const WeatherForecast = () => {
     }
     return weatherData;
   };
-
-  //  <XAxis />
 
   const renderLineChart = (
     <div className="chart">

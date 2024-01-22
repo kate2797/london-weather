@@ -42,7 +42,6 @@ export const Calculation = () => {
     setClearing(true);
   };
 
-  // check, if values are there already
   const loadStorage = () => {
     let temp = [];
     for (let i = 0; i < localStorage.length; i++) {
@@ -65,7 +64,7 @@ export const Calculation = () => {
 
   useEffect(() => {
     //localStorage.clear();
-    setResults(loadStorage());
+    //setResults(loadStorage());
   }, []);
 
   useEffect(() => {
@@ -76,13 +75,15 @@ export const Calculation = () => {
   }, [temp, hum]);
 
   useEffect(() => {
-    if (localStorage.length === 6) {
+    if (results.length === 6) {
       setKey(0); // Reset our keys
+      //localStorage.length
     }
     if (isValid) {
       store();
-      //console.log("storage: " + localStorage.length);
-      //console.log("local state: " + results.length);
+      // console log
+      console.log("storage: " + localStorage.length);
+      console.log("local state: " + results.length);
     }
   }, [showIndex]);
 
@@ -110,6 +111,7 @@ export const Calculation = () => {
             <WarningIcon color="orange" />
           </Tooltip>
         </div>
+
         <Input
           value={temp}
           onChange={handleChangeTemperature}
