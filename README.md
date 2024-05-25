@@ -1,5 +1,7 @@
 # Weather App
 
+This React application was born from an at-home coding challenge during a recent interview process. Delighted to share it received excellent feedback, particularly for its strong code practices and user-friendly UI. Check it out here: https://kate2797.github.io/weather_app/
+
 ```
 $ weather_app/src
 .
