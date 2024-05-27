@@ -1,6 +1,7 @@
 # Weather App
 
-This React application was born from an at-home coding challenge during a recent interview process. Delighted to share it received excellent feedback, particularly for its strong code practices and user-friendly UI.
+This React application was born from an at-home coding challenge during a recent interview process. Delighted to share it received excellent feedback, particularly for its strong code practices and user-friendly UI. With the tight deadline, I didn't have a chance to fine-tune the UI any more.
+
 ## Code Structure
 
 ```
